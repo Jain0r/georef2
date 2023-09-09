@@ -1,8 +1,14 @@
 package com.example.mymap21;
 
+import android.content.Intent;
 import android.graphics.Camera;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
@@ -26,8 +32,16 @@ import java.util.Arrays;
 
 public class MapGeoActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    //
+
     GoogleMap mMap;
     PlacesClient placesClient;
+
+    Button btnSeleccion;
+
+    ArrayList<String> infoRef;
+
+    //FrameLayout mapViewFrame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +77,40 @@ public class MapGeoActivity extends FragmentActivity implements OnMapReadyCallba
                 Log.i("PlacesAPI", "onPlaceSelected: " + latLng.latitude + "\n" + latLng.longitude);
                 mMap.addMarker(new MarkerOptions().position(latLng).title("lugar"));
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+
+                //Setear info en string para retorno
+                infoRef = new ArrayList<>(); //O Latitud, 1 Longitud, 2 Direccion, 3 Nombre ubic
+                //place.
+                infoRef.add("Longitud:" + latLng.longitude);
+                infoRef.add("Latitud:" + latLng.latitude);
+                infoRef.add("Direccion:" + place.getAddress());
+                infoRef.add(place.getName());
+                //String asqweqw = place.get
+
             }
         });
+
+        //BOTON RETORNO Y CAPTURAR PANTALLA
+        btnSeleccion = findViewById(R.id.btn_seleccion);
+
+        //mapViewFrame = findViewById(R.id.map_view);
+        //SupportMapFragment mapFragment1 = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_view);
+        btnSeleccion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String informacion = "HOLA PAPI VENGO DEL SEGUNDO FRAGMENT";
+                Intent intent = new Intent();
+
+                intent.putStringArrayListExtra("informacao", infoRef);
+
+                Log.i("RETORNO INFO", "informacion de retorno: " + informacion);
+
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
+
+
     }
 
     @Override
@@ -73,7 +119,21 @@ public class MapGeoActivity extends FragmentActivity implements OnMapReadyCallba
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(-12.0823349,-76.9768766), 10);
 
         mMap.getUiSettings().setZoomControlsEnabled(true);
-
+        mMap.getUiSettings().setRotateGesturesEnabled(true);
         mMap.moveCamera(cameraUpdate);
     }
+
+    /*
+    public class infoReferencia implements Parcelable {
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(@NonNull Parcel parcel, int i) {
+
+        }
+    }
+     */
 }
