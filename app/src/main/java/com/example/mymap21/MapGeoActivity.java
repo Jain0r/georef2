@@ -32,8 +32,6 @@ import java.util.Arrays;
 
 public class MapGeoActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    //
-
     GoogleMap mMap;
     PlacesClient placesClient;
 
@@ -41,7 +39,7 @@ public class MapGeoActivity extends FragmentActivity implements OnMapReadyCallba
 
     ArrayList<String> infoRef;
 
-    //FrameLayout mapViewFrame;
+    FrameLayout mapViewFrame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +50,7 @@ public class MapGeoActivity extends FragmentActivity implements OnMapReadyCallba
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapa);
 
-        mapFragment.getMapAsync(this);
+        mapFragment.getMapAsync(this); //Llama onMapReady()
 
         //PLACES
         String apikey = "AIzaSyBZh06cwnenMVLz207Da36kSLosSPtg_RI";
@@ -81,8 +79,8 @@ public class MapGeoActivity extends FragmentActivity implements OnMapReadyCallba
                 //Setear info en string para retorno
                 infoRef = new ArrayList<>(); //O Latitud, 1 Longitud, 2 Direccion, 3 Nombre ubic
                 //place.
-                infoRef.add("Longitud:" + latLng.longitude);
-                infoRef.add("Latitud:" + latLng.latitude);
+                infoRef.add(""+latLng.latitude);
+                infoRef.add(""+latLng.longitude);
                 infoRef.add("Direccion:" + place.getAddress());
                 infoRef.add(place.getName());
                 //String asqweqw = place.get
@@ -93,11 +91,14 @@ public class MapGeoActivity extends FragmentActivity implements OnMapReadyCallba
         //BOTON RETORNO Y CAPTURAR PANTALLA
         btnSeleccion = findViewById(R.id.btn_seleccion);
 
-        //mapViewFrame = findViewById(R.id.map_view);
+        mapViewFrame = findViewById(R.id.map_view);
         //SupportMapFragment mapFragment1 = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_view);
         btnSeleccion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Intentando capturar el screenshot
+
+
                 String informacion = "HOLA PAPI VENGO DEL SEGUNDO FRAGMENT";
                 Intent intent = new Intent();
 
@@ -107,6 +108,8 @@ public class MapGeoActivity extends FragmentActivity implements OnMapReadyCallba
 
                 setResult(RESULT_OK, intent);
                 finish();
+
+
             }
         });
 
