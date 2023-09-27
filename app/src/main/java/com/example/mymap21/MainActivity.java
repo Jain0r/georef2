@@ -61,17 +61,10 @@ public class MainActivity extends AppCompatActivity {
         // OBTENER MAPA
         imgMapa = findViewById(R.id.img_lugar);
 
-        btnMuestraMapa = findViewById(R.id.boton_mostrar_imagen);
+        btnMuestraMapa  = findViewById(R.id.boton_mostrar_imagen);
         btnMuestraMapa.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view) {
-                //descargar mapa
-                String latitude = "";
-                String longitude = "";
-                String url = "http://maps.google.com/maps/api/staticmap?center=" + latitude + "," + longitude + "&zoom=15&size=300x300&sensor=false&key=AIzaSyBZh06cwnenMVLz207Da36kSLosSPtg_RI";
-
-                
-
+            public void onClick(View view){
                 //mostrar mapa
                 new GetMap().execute();
             }
@@ -97,17 +90,16 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.i("RETORNO INFO", "informacion de retorno: " + inf.get(0));
 
-                String asdasd = "";
+                String infoRetorno = "";
 
                 for(int i = 0; i < inf.size(); i++){
-                    asdasd += inf.get(i) + "\n";
+                    infoRetorno += inf.get(i) + "\n";
                 }
 
-                txtRetorno.setText(asdasd);
+                txtRetorno.setText(infoRetorno);
 
                 this.LAT = inf.get(0);
                 this.LNG = inf.get(1);
-
             }
         }
     }
@@ -122,12 +114,20 @@ public class MainActivity extends AppCompatActivity {
             //send request to static map api
 
             try{
-                URL mapurl = new URL("https://maps.google.com/maps/api/staticmap?center=" + LAT +"," + LNG + "&zoom=15&size=300x300&sensor=false&key=AIzaSyBZh06cwnenMVLz207Da36kSLosSPtg_RI");
+                String center = LAT +"," + LNG;
+                String zoom = "15";
+                String size = "300x300";
+                String sensor = "false";
+                String marker = "size:mid%7Ccolor:red%7Clabel:C%7C"+center;
+                String apiKey = "AIzaSyBZh06cwnenMVLz207Da36kSLosSPtg_RI";
+                String url2 = String.format("https://maps.google.com/maps/api/staticmap?center=%s" +
+                       "&zoom=%s&size=%s&sensor=%s&markers=%s&key=%s", center, zoom, size, sensor,marker, apiKey);
 
+                //URL mapurl = new URL("https://maps.google.com/maps/api/staticmap?center=" + LAT +"," + LNG + "&zoom=15&size=300x300&sensor=false&key=AIzaSyBZh06cwnenMVLz207Da36kSLosSPtg_RI");
+                URL mapurl = new URL(url2);
                 InputStream stream = (InputStream) mapurl.openConnection().getContent();
 
                 //BitmapFactory.decodeStream(stream);
-
                 image = BitmapFactory.decodeStream(stream);
 
 

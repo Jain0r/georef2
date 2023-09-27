@@ -63,6 +63,7 @@ public class MapGeoActivity extends FragmentActivity implements OnMapReadyCallba
                 (AutocompleteSupportFragment) getSupportFragmentManager().findFragmentById(R.id.auto_complete_fragment);
 
         autocompleteSupportFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.LAT_LNG, Place.Field.NAME));
+        autocompleteSupportFragment.setCountries("PE");
         autocompleteSupportFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onError(@NonNull Status status) {
@@ -96,10 +97,9 @@ public class MapGeoActivity extends FragmentActivity implements OnMapReadyCallba
         btnSeleccion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 //Intentando capturar el screenshot
-
-
-                String informacion = "HOLA PAPI VENGO DEL SEGUNDO FRAGMENT";
+                String informacion = "HOLA VENGO DEL SEGUNDO FRAGMENT";
                 Intent intent = new Intent();
 
                 intent.putStringArrayListExtra("informacao", infoRef);
@@ -108,8 +108,6 @@ public class MapGeoActivity extends FragmentActivity implements OnMapReadyCallba
 
                 setResult(RESULT_OK, intent);
                 finish();
-
-
             }
         });
 
