@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            //Receive bitmap
+            //Receive bitmap asdasd
 
             return image;
         }
